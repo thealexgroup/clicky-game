@@ -1,0 +1,63 @@
+[
+	{
+		"id": 1,
+		"image": "./assets/images/trout1.png",
+		"clicked": false
+	},
+
+	{
+		"id": 2,
+		"image": "../public/images/trout2.png",
+		"clicked": false
+	},
+	{
+		"id": 3,
+		"image": "../public/images/trout3.png",
+		"clicked": false
+	},
+	{
+		"id": 4,
+		"image": "../public/images/trout4.png",
+		"clicked": false
+	},
+	{
+		"id": 5,
+		"image": "../public/images/trout5.png",
+		"clicked": false
+	},
+	{
+		"id": 6,
+		"image": "../public/images/trout6.png",
+		"clicked": false
+	},
+	{
+		"id": 7,
+		"image": "../public/images/trout7.png",
+		"clicked": false
+	},
+	{
+		"id": 8,
+		"image": "../public/images/trout8.png",
+		"clicked": false
+	},
+	{
+		"id": 9,
+		"image": "../public/images/trout9.png",
+		"clicked": false
+	},
+	{
+		"id": 10,
+		"image": "../public/images/trout10.png",
+		"clicked": false
+	},
+	{
+		"id": 11,
+		"image": "../public/images/trout11.png",
+		"clicked": false
+	},
+	{
+		"id": 12,
+		"image": "../public/images/trout12.png",
+		"clicked": false
+	}
+]
