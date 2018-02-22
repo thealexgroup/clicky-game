@@ -1,68 +1,132 @@
-/* boiler plate file from create-react-app */
+//boiler plate file from create-react-app 
 
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+
+//don't use logo.svg so get rid of it, only produces warning
+//import logo from './logo.svg';
+
+import "./App.css";
 
 /* ********  my files *********** */
-
-/* Navpills is the nav bar at top, although it's not really a nav bar */
+// Navpills is the nav bar at top, although it's not really a nav bar 
 import Navpills from "./component/Navpills";
 
-/* Titlebox, image and text above images */
+// Titlebox, image and text above images 
 import Titlebox from "./component/Titlebox";
-import { List, ListItem } from "./component/List";
+// images component 
+import TroutImages from "./component/TroutImages";
 
-/* my trout information file, used for images and initial selection state*/
-import trout from "./trout.json";
+// wrap my trout images to display children 
+import Wrapper from "./component/Wrapper";
 
-console.log(trout[0])
-/* create a class called App */
+// my trout information file, array of objects 
+import trouties from "./trout.json";
 
+// create a class called App 
 class App extends Component {
-  /* set the state of those things on the page I'll want to change */
-  state = {
-    message: "Click a fish to start the game!",
-    topScore: 0,
-    currentScore: 0,
-    clickedTrout: []
-  };
+    
+  // set the state of current and top scores - things on the page I'll want to change 
+    state = {
+        trouties,
+        currentScore: 0,
+        topScore: 0,
+        message: "Catch any fish to start"
+    };
 
-/* when I'm done, render to screen */
 
-/* Navpills needs the state of the current message - Start, Good Guess, Bad and game Over */
-/* Also needs the currentScore and the topScore, if the topScore is higher than the current state */
+    //when clicked on an image, do this stuff. Get the ID from the value id value onclick
+    setClicked = id => {
 
-  render() {
-    return (
-      <div className="container">
-        <div>
-          <Navpills 
-            message={this.state.message}
-            currentScore={this.state.currentScore}
-            topScore={this.state.topScore}   
-            />
-        </div>
-        <div>
-          <Titlebox /> 
+        // create a variable that holds the matched ID from my array.  There is only
+        //one so it will always be in position [0]. ID comes from the input in my render
+        const clickedMatch = trouties.filter(match => match.id === id);
 
-        {trout.length ? (
-              <List>
-                {trout.map(trout => (
-                  <ListItem key={trout.id}>
-                    <img src={trout.image} />
-                  </ListItem>
-                ))}
-              </List>
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
+/* ************** if the matched ID is already clicked (true) then the game  is over  ******** */
+        if (clickedMatch[0].clicked) {
 
-        </div>
+            //reset all of my clicked values in my trouties array to false
+            for (let i = 0 ; i < trouties.length ; i++) {
+                trouties[i].clicked = false;
+            }
 
-      </div>
-    );
-  }
+            //you are a loser, reset to the current score to 0
+            this.setState({message: "You already caught that fish.  Start fishing again."});
+            this.setState({ currentScore: 0 });
+            //sort the array again for another game.  Just copied this sort function from SO, seems to work.
+            trouties.sort(function(a, b){return 0.5 - Math.random()});            
+
+/* ***************** Otherwise, if ID clicked = false, and it's less than 12 pics...  ************* */
+
+        } else if (this.state.currentScore < 11) {
+
+            // change the clicked value from false to true
+            clickedMatch[0].clicked = true;
+
+            //add to the currentScore, and then check the if currentScore is more than topScore
+            //interesting in that I had to put this second part in a function as setState is async
+            this.setState({currentScore: this.state.currentScore + 1}, () => {
+                // if currentScore > topScore, change topScore to currentScore.  
+                if (this.state.currentScore > this.state.topScore){
+                    this.setState({ topScore: this.state.currentScore });
+                }
+            });
+
+
+            // Shuffle the array to be rendered in a random order
+            trouties.sort(function(a, b){return 0.5 - Math.random()});
+            //update the current score
+            this.setState({currentScore: this.state.currentScore + 1});
+            //don't really need to update this every time but can't find a better way
+            this.setState({message: "Keep casting..."});
+
+/* ****************** Or, you've caught all twelve fish and the game is over anyway ***************** */            
+        } else {
+
+            // Set the topScore to the top score it can be.  
+            this.setState({ topScore: 12 });
+            
+            //reset all of my clicked values in my trouties array to false
+            for (let i = 0 ; i < trouties.length ; i++){
+                trouties[i].clicked = false;
+            }
+
+            //shuffle up again
+            trouties.sort(function(a, b){return 0.5 - Math.random()});
+
+            // Set currentScore to 0, winner winner fishy dinner message
+            this.setState({currentScore: 0});
+            this.setState({message: "You caught them all, start over!"});            
+
+        }
+    };
+
+    render() {
+        return (
+
+            <div>
+
+                <Navpills 
+                    message={this.state.message}
+                    currentScore={this.state.currentScore}
+                    topScore={this.state.topScore}   
+                />
+
+                <Titlebox />
+
+                <Wrapper>
+                    {this.state.trouties.map(match => (
+                        <TroutImages
+                            setClicked={this.setClicked}
+                            id={match.id}
+                            key={match.id}
+                            image={match.image}
+                        />
+                    ))}
+                </Wrapper>
+
+            </div>            
+        );
+    }
 }
 
 export default App;
