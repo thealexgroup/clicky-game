@@ -2,7 +2,7 @@ import React from "react";
 //this is my css
 import "./Titlebox.css"
 
-const colors = { "Water": "#00ffff"};
+const colors = { "Water": "mediumseagreen"};
 
 const Titlebox = () => 
 

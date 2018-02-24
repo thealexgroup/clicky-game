@@ -8,6 +8,7 @@ import React, { Component } from "react";
 import "./App.css";
 
 /* ********  my files *********** */
+
 // Navpills is the nav bar at top, although it's not really a nav bar 
 import Navpills from "./component/Navpills";
 
@@ -34,14 +35,16 @@ class App extends Component {
     };
 
 
-    //when clicked on an image, do this stuff. Get the ID from the value id value onclick
+    //when clicked on an image, do this stuff pass the value of id from id={match.id}
     setClicked = id => {
 
         // create a variable that holds the matched ID from my array.  There is only
-        //one so it will always be in position [0]. ID comes from the input in my render
+        // one so it will always be in position [0]. ID comes from the input in my render
+        // filter seemed easier than anything else
         const clickedMatch = trouties.filter(match => match.id === id);
 
 /* ************** if the matched ID is already clicked (true) then the game  is over  ******** */
+
         if (clickedMatch[0].clicked) {
 
             //reset all of my clicked values in my trouties array to false
@@ -71,15 +74,13 @@ class App extends Component {
                 }
             });
 
-
             // Shuffle the array to be rendered in a random order
             trouties.sort(function(a, b){return 0.5 - Math.random()});
-            //update the current score
-            this.setState({currentScore: this.state.currentScore + 1});
             //don't really need to update this every time but can't find a better way
             this.setState({message: "Keep casting..."});
 
 /* ****************** Or, you've caught all twelve fish and the game is over anyway ***************** */            
+
         } else {
 
             // Set the topScore to the top score it can be.  
@@ -118,7 +119,6 @@ class App extends Component {
                         <TroutImages
                             setClicked={this.setClicked}
                             id={match.id}
-                            key={match.id}
                             image={match.image}
                         />
                     ))}
