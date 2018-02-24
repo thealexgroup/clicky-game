@@ -4,7 +4,6 @@ import React, { Component } from "react";
 
 //don't use logo.svg so get rid of it, only produces warning
 //import logo from './logo.svg';
-
 import "./App.css";
 
 /* ********  my files *********** */
